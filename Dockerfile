@@ -81,7 +81,7 @@ RUN mkdir /var/www; \
 
 COPY ./files /usr/local/
 
-RUN \
+RUN apk add libmagic;\
     #default settings
     mkdir -p /var/www/html; \
     mv /usr/local/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf; \
