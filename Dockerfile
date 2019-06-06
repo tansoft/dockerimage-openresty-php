@@ -13,7 +13,7 @@ RUN mkdir /var/www; \
     chmod 777 /var/log/applogs; \
     apk add --no-cache php7 php7-phpdbg php7-fpm php7-dev php7-phar \
     php7-curl php7-dom php7-json php7-openssl php7-session php7-sockets \
-    php7-ctype php7-gettext php7-mbstring php7-iconv \
+    php7-ctype php7-fileinfo libmagic php7-gettext php7-mbstring php7-iconv \
     php7-mcrypt php7-bcmath php7-gd \
     #db
     php7-pdo php7-pdo_mysql php7-mysqlnd \
@@ -81,7 +81,7 @@ RUN mkdir /var/www; \
 
 COPY ./files /usr/local/
 
-RUN apk add libmagic;\
+RUN \
     #default settings
     mkdir -p /var/www/html; \
     mv /usr/local/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf; \
