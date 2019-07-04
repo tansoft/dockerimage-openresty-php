@@ -14,7 +14,7 @@ RUN mkdir /var/www; \
     apk add --no-cache php7 php7-phpdbg php7-fpm php7-dev php7-phar \
     php7-curl php7-dom php7-json php7-openssl php7-session php7-sockets \
     php7-ctype php7-fileinfo libmagic php7-gettext php7-mbstring php7-iconv \
-    php7-mcrypt php7-bcmath php7-gd \
+    php7-mcrypt php7-bcmath php7-gd php7-zip \
     #db
     php7-pdo php7-pdo_mysql php7-mysqlnd \
     php7-redis php7-memcached php7-pear-auth_sasl2 libmemcached-libs \
