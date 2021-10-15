@@ -6,6 +6,15 @@
 * supervisord
 * memcached
 
+## 版本
+* 生产环境使用：tansoft/openresty-php:latest
+* 调试环境使用：tansoft/openresty-php:debug
+```
+docker run -d -v `pwd`:/var/www/html --name debugversion -p8000:80 tansoft/openresty-php:debug
+docker exec -it debugversion /bin/sh -c "tail -F /var/log/*/*"
+docker rm -f -v debugversion
+```
+
 ## 路径
 
 ### nginx
