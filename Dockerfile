@@ -99,6 +99,8 @@ RUN \
     #System parameter optimization
     sed -i 's/; process.max = 128/process.max = 512/' /etc/php7/php-fpm.conf; \
     sed -i 's/;rlimit_files = 1024/rlimit_files = 65535/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;rlimit_core = 0/rlimit_core = 67108864/' /etc/php7/php-fpm.conf;
+    sed -i 's/;rlimit_core = 0/rlimit_core = 67108864/' /etc/php7/php-fpm.conf; \
+    sed -i 's/post_max_size = 8M/post_max_size = 256M/' /etc/php7/php.ini; \
+    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 256M/' /etc/php7/php.ini;
 
 CMD ["sh","/usr/local/start.sh"]
