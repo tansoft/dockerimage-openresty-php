@@ -77,6 +77,7 @@ RUN mkdir /var/www; \
     \
     #supervisord
     && apk add supervisor \
+    && mkdir -p /etc/supervisor/conf.d \
     && echo -e "[supervisord]\ndaemon=true\n[include]\nfiles = /etc/supervisor/conf.d/*.conf" > /etc/supervisord.conf \
     \
     #global cleanup
