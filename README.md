@@ -13,6 +13,8 @@
 * nginx主配置：/usr/local/openresty/nginx/conf/nginx.conf
 * 站点配置：/etc/nginx/conf.d/*.conf
 * nginx错误日志：/var/log/nginx/error.log
+* 默认站点访问日志：/var/log/nginx/default.access.log
+* 默认站点错误日志：/var/log/nginx/default.error.log
 * web：/var/www/html
 * xhprof：/var/www/xhprof
 * nginx启动路径：/usr/local/openresty/nginx/sbin/nginx
@@ -21,6 +23,8 @@
 * fpm主配置：/etc/php7/php-fpm.conf
 * 站点配置：/etc/php7/php-fpm.d/*.conf
 * php-fpm启动路径：/usr/sbin/php-fpm7
+* 错误日志：/var/log/php7/error.log
+* php权限可以写入：/var/log/applogs/*
 * 默认配置：
 ```
 pm = dynamic
