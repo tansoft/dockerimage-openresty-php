@@ -2,7 +2,7 @@
 
 * PHP7 基础组件：Debug、FPM、phar、curl、dom、json、openssl、session、sockets、ctype、fileinfo、gettext、mbstring、iconv、mcrypt、bcmath、gd、zip、opcache
 * PHP7 数据组件：pdo、mysql、redis、memcached、sasl2、amqp
-* yaf 3.0.8、yar 2.0.5、swoole 4.3.1、xhprof 2.1.0、donkeyid 1.0、xxtea
+* yaf 3.0.8、yar 2.0.5、swoole 4.3.1、xhprof 2.3.5、donkeyid 1.0、xxtea
 * supervisord
 * memcached
 

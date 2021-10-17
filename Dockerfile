@@ -54,7 +54,7 @@ RUN mkdir /var/www; \
     && cd /usr/local && echo "extension=swoole.so" > /etc/php7/conf.d/swoole.ini \
     \
     #xhprof
-    wget http://pecl.php.net/get/xhprof-2.3.5.tgz \
+    && wget http://pecl.php.net/get/xhprof-2.3.5.tgz \
     && tar zxvf xhprof-2.3.5.tgz && rm -rf /usr/local/xhprof-2.3.5.tgz \
     && mv /usr/local/xhprof-2.3.5 /var/www/xhprof \
     && cd /var/www/xhprof/extension && phpize \
