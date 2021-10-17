@@ -2,7 +2,10 @@ FROM tansoft/openresty-php:latest
 
 RUN \
     #php-fpm debug
-    sed -i 's/;error_log = log\/php7\/error.log/error_log = log\/php7\/error.log/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;error_log = syslog/error_log = \/var\/log\/applogs\/error_log/' /etc/php7/php.ini;
+    sed -i 's/;error_log = log\/php7\/error.log/error_log = log\/php7\/fpm_error.log/' /etc/php7/php-fpm.conf; \
+    sed -i 's/;error_log = syslog/error_log = \/var\/log\/php7\/php_error.log/' /etc/php7/php.ini; \
+    echo "catch_workers_output = yes" >> /etc/php7/php-fpm.d/default.conf; \
+    echo "request_slowlog_timeout = 10s" >> /etc/php7/php-fpm.d/default.conf; \
+    echo "slowlog = /var/log/php7/www_slow.log" >> /etc/php7/php-fpm.d/default.conf;
 
 CMD ["sh","/usr/local/start.sh"]

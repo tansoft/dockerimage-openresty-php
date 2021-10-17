@@ -9,6 +9,7 @@ COPY ./dependents /usr/local/
 
 RUN mkdir /var/www; \
     mkdir /var/log/nginx; \
+    mkdir /var/log/php7; \
     mkdir /var/log/applogs; \
     chmod 777 /var/log/applogs; \
     apk add php7 php7-phpdbg php7-fpm php7-dev php7-phar \
@@ -22,7 +23,8 @@ RUN mkdir /var/www; \
     php7-opcache \
     #amqp
     php7-amqp; \
-    echo "memcached.use_sasl = 1" >> /etc/php7/conf.d/20_memcached.ini; \
+    rm -f /etc/php7/php-fpm.d/www.conf \
+    && echo "memcached.use_sasl = 1" >> /etc/php7/conf.d/20_memcached.ini; \
     \
     #source builder
     apk add gcc gcc-objc g++ make; \
@@ -78,7 +80,8 @@ RUN mkdir /var/www; \
     #supervisord
     && apk add supervisor \
     && mkdir -p /etc/supervisor/conf.d \
-    && echo -e "[supervisord]\ndaemon=true\n[include]\nfiles = /etc/supervisor/conf.d/*.conf" > /etc/supervisord.conf \
+    && mkdir -p /var/log/supervisord \
+    && echo -e "[supervisord]\ndaemon=true\nuser=root\nlogfile=/var/log/supervisord/supervisord.log\n[include]\nfiles = /etc/supervisor/conf.d/*.conf" > /etc/supervisord.conf \
     \
     #global cleanup
     && apk del gcc gcc-objc g++ make \
@@ -100,6 +103,8 @@ RUN \
     sed -i 's/; process.max = 128/process.max = 512/' /etc/php7/php-fpm.conf; \
     sed -i 's/;rlimit_files = 1024/rlimit_files = 65535/' /etc/php7/php-fpm.conf; \
     sed -i 's/;rlimit_core = 0/rlimit_core = 67108864/' /etc/php7/php-fpm.conf; \
+    sed -i 's/;emergency_restart_threshold = 0/emergency_restart_threshold = 60/' /etc/php7/php-fpm.conf; \
+    sed -i 's/;emergency_restart_interval = 0/emergency_restart_interval = 60s/' /etc/php7/php-fpm.conf; \
     sed -i 's/post_max_size = 8M/post_max_size = 256M/' /etc/php7/php.ini; \
     sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 256M/' /etc/php7/php.ini;
 

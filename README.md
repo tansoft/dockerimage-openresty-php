@@ -47,9 +47,15 @@ pm.max_spare_servers = 3
 * 主配置：/etc/supervisord.conf
 * 服务配置：/etc/supervisor/conf.d/*.conf
 * 启动路径：/usr/bin/supervisord -c /etc/supervisord.conf
+* 日志：/var/log/supervisord/supervisord.log
 
 ### memcached
 * 默认本地缓存：/usr/bin/memcached -p 12000 -l 127.0.0.1 -d -u root -m 64m
 
 ### 启动脚本
 * /usr/local/start.sh
+
+### 调试环境
+* PHP错误日志：/var/log/php7/php_error.log
+* FPM错误日志：/var/log/php7/fpm_error.log
+* SlowLog：10秒 /var/log/php7/www_slow.log
