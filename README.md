@@ -10,7 +10,7 @@
 * 生产环境使用：tansoft/openresty-php:latest
 * 调试环境使用：tansoft/openresty-php:debug
 ```
-docker run -d -v `pwd`:/var/www/html --name debugversion -p8000:80 tansoft/openresty-php:debug
+docker run -d -v `pwd`:/var/www/html --name debugversion -p80:80 -p81:81 tansoft/openresty-php:debug
 docker exec -it debugversion /bin/sh -c "tail -F /var/log/*/*"
 docker rm -f -v debugversion
 ```
@@ -54,6 +54,17 @@ pm.max_spare_servers = 3
 
 ### 启动脚本
 * /usr/local/start.sh
+
+### xhprof
+* 分析报告输出路径：/var/log/xhprof/
+* 开启记录：在需要的地方引用以下文件即可：
+```
+require_once('/var/www/xhprof/xhprof_enable.php');
+//$g_xhprof_limit_ms=0;
+```
+* 调试模式下，会直接把所有调用都默认加上xhprof的追踪（通过nginx中配置），并默认启动xhprof的查询网站(http://localhost:81)
+* 注意，xhprof默认只记录3秒以上的请求，如果需要修改，可以在引用后，设置$g_xhprof_limit_ms的值，为0为总是记录，为300表示最后执行时间大于300ms才记录
+* 也可以在请求参数中强制给出xhprof表示进行记录，如/index.php?xhprof。
 
 ### 调试环境
 * PHP错误日志：/var/log/php7/php_error.log

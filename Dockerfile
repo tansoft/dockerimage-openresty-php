@@ -54,12 +54,13 @@ RUN mkdir /var/www; \
     && cd /usr/local && echo "extension=swoole.so" > /etc/php7/conf.d/swoole.ini \
     \
     #xhprof
-    && wget https://github.com/longxinH/xhprof/archive/v2.1.0.tar.gz \
+    wget https://github.com/longxinH/xhprof/archive/v2.1.0.tar.gz \
     && tar zxvf v2.1.0.tar.gz && cd xhprof-2.1.0/extension && phpize \
     && ./configure && make && make install \
     && rm -rf /usr/local/v2.1.0.tar.gz /usr/local/xhprof-2.1.0/extension \
     && mv /usr/local/xhprof-2.1.0 /var/www/xhprof \
-    && cd /usr/local && echo -e "[xhprof]\nextension = xhprof.so\nxhprof.output_dir = /tmp/xhprof" > /etc/php7/conf.d/xhprof.ini \
+    && mkdir -p /var/log/xhprof && chmod 777 /var/log/xhprof \
+    && cd /usr/local && echo -e "[xhprof]\nextension = xhprof.so\nxhprof.output_dir = /var/log/xhprof" > /etc/php7/conf.d/xhprof.ini \
     \
     #donkeyid
     && wget https://github.com/osgochina/donkeyid/archive/donkeyid-1.0.tar.gz \
@@ -94,18 +95,19 @@ COPY ./files /usr/local/
 
 RUN \
     #default settings
-    mkdir -p /var/www/html; \
-    mv /usr/local/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf; \
-    mv /usr/local/nginx/*.conf /etc/nginx/conf.d/; \
-    mv /usr/local/fpm/*.conf /etc/php7/php-fpm.d/; \
+    mkdir -p /var/www/html \
+    && mv /usr/local/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf \
+    && mv /usr/local/nginx/*.conf /etc/nginx/conf.d/ \
+    && mv /usr/local/fpm/*.conf /etc/php7/php-fpm.d/ \
+    && mv /usr/local/xhprof_enable.php /var/www/xhprof/xhprof_enable.php; \
     \
     #System parameter optimization
-    sed -i 's/; process.max = 128/process.max = 512/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;rlimit_files = 1024/rlimit_files = 65535/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;rlimit_core = 0/rlimit_core = 67108864/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;emergency_restart_threshold = 0/emergency_restart_threshold = 60/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;emergency_restart_interval = 0/emergency_restart_interval = 60s/' /etc/php7/php-fpm.conf; \
-    sed -i 's/post_max_size = 8M/post_max_size = 256M/' /etc/php7/php.ini; \
-    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 256M/' /etc/php7/php.ini;
+    sed -i 's/; process.max = 128/process.max = 512/' /etc/php7/php-fpm.conf \
+    && sed -i 's/;rlimit_files = 1024/rlimit_files = 65535/' /etc/php7/php-fpm.conf \
+    && sed -i 's/;rlimit_core = 0/rlimit_core = 67108864/' /etc/php7/php-fpm.conf \
+    && sed -i 's/;emergency_restart_threshold = 0/emergency_restart_threshold = 60/' /etc/php7/php-fpm.conf \
+    && sed -i 's/;emergency_restart_interval = 0/emergency_restart_interval = 60s/' /etc/php7/php-fpm.conf \
+    && sed -i 's/post_max_size = 8M/post_max_size = 256M/' /etc/php7/php.ini \
+    && sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 256M/' /etc/php7/php.ini;
 
 CMD ["sh","/usr/local/start.sh"]

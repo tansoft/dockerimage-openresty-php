@@ -1,11 +1,22 @@
 FROM tansoft/openresty-php:latest
 
 RUN \
-    #php-fpm debug
-    sed -i 's/;error_log = log\/php7\/error.log/error_log = log\/php7\/fpm_error.log/' /etc/php7/php-fpm.conf; \
-    sed -i 's/;error_log = syslog/error_log = \/var\/log\/php7\/php_error.log/' /etc/php7/php.ini; \
+    # php-fpm debug
+    sed -i 's/;error_log = log\/php7\/error.log/error_log = log\/php7\/fpm_error.log/' /etc/php7/php-fpm.conf \
+    && sed -i 's/;error_log = syslog/error_log = \/var\/log\/php7\/php_error.log/' /etc/php7/php.ini; \
+    && sed -i 's/display_errors = Off/display_errors = On/' /etc/php7/php.ini; \
     echo "catch_workers_output = yes" >> /etc/php7/php-fpm.d/default.conf; \
+    # show log
     echo "request_slowlog_timeout = 10s" >> /etc/php7/php-fpm.d/default.conf; \
-    echo "slowlog = /var/log/php7/www_slow.log" >> /etc/php7/php-fpm.d/default.conf;
+    echo "slowlog = /var/log/php7/www_slow.log" >> /etc/php7/php-fpm.d/default.conf; \
+    # xhprof
+    apk add graphviz ttf-dejavu fontconfig \
+    && rm -rf /var/cache/apk/* /var/tmp/* /tmp/* \
+        /etc/ssl/certs/*.pem /etc/ssl/certs/*.0 \
+        /usr/share/ca-certificates/mozilla/* \
+        /usr/include/* \
+    && mv /etc/nginx/conf.d/xhprof_web.conf.disable /etc/nginx/conf.d/xhprof_web.conf \
+    && mv /etc/php7/php-fpm.d/xhprof_web.conf.disable /etc/php7/php-fpm.d/xhprof_web.conf \
+    && sed -i 's/#fastcgi_param PHP_VALUE/fastcgi_param PHP_VALUE/' /etc/nginx/conf.d/default.conf;
 
 CMD ["sh","/usr/local/start.sh"]
