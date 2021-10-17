@@ -97,8 +97,8 @@ RUN \
     #default settings
     mkdir -p /var/www/html \
     && mv /usr/local/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf \
-    && mv /usr/local/nginx/*.conf /etc/nginx/conf.d/ \
-    && mv /usr/local/fpm/*.conf /etc/php7/php-fpm.d/ \
+    && mv /usr/local/nginx/* /etc/nginx/conf.d/ \
+    && mv /usr/local/fpm/* /etc/php7/php-fpm.d/ \
     && mv /usr/local/xhprof_enable.php /var/www/xhprof/xhprof_enable.php; \
     \
     #System parameter optimization
