@@ -36,8 +36,13 @@ docker rm -f -v debugversion
 * php权限可以写入：/var/log/applogs/*
 * 默认配置：
 ```
+[default]
+user = nobody
+group = nobody
+listen = 127.0.0.1:9000
 pm = dynamic
-pm.max_children = 5
+pm.max_children = 300
+pm.max_requests = 600
 pm.start_servers = 1
 pm.min_spare_servers = 1
 pm.max_spare_servers = 3
