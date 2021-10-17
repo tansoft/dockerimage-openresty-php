@@ -54,11 +54,11 @@ RUN mkdir /var/www; \
     && cd /usr/local && echo "extension=swoole.so" > /etc/php7/conf.d/swoole.ini \
     \
     #xhprof
-    wget https://github.com/longxinH/xhprof/archive/v2.1.0.tar.gz \
-    && tar zxvf v2.1.0.tar.gz && cd xhprof-2.1.0/extension && phpize \
+    wget http://pecl.php.net/get/xhprof-2.3.5.tgz \
+    && tar zxvf xhprof-2.3.5.tgz && rm -rf /usr/local/xhprof-2.3.5.tgz \
+    && mv /usr/local/xhprof-2.3.5 /var/www/xhprof \
+    && cd /var/www/xhprof/extension && phpize \
     && ./configure && make && make install \
-    && rm -rf /usr/local/v2.1.0.tar.gz /usr/local/xhprof-2.1.0/extension \
-    && mv /usr/local/xhprof-2.1.0 /var/www/xhprof \
     && mkdir -p /var/log/xhprof && chmod 777 /var/log/xhprof \
     && cd /usr/local && echo -e "[xhprof]\nextension = xhprof.so\nxhprof.output_dir = /var/log/xhprof" > /etc/php7/conf.d/xhprof.ini \
     \
